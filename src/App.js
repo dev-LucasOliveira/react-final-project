@@ -1,6 +1,7 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import RenderCard from './RenderUserCard';
 import './App.css';
 
 function App() {
@@ -63,7 +64,12 @@ function App() {
       else {setIsButtonDisabled(false)};
   }, [firstNameUser, lastNameUser, ageUser, heightUser, universityUser, imageUser]);
 
-  useEffect((user) => {}, []);
+  // useEffect(() => {
+  //   if (isUserEditing === true) {
+  //     setIsButtonDisabled(false);
+  //   }
+  //   else ;
+  // }, [isUserEditing]);
 
   function autoFillForm(user) {
     setFirstNameUser(user.firstName);
@@ -74,60 +80,65 @@ function App() {
     setImageUser(user.image);
   }
 
-  function renderCard(user) {
+  function handleEdit(id) {
+    const editedUser = currentUsers.find((user) => user.id === id);
 
-    return (
-      <div className="card">      
-      <div className='edit-button-div'>
-        <button 
-          className='edit-button'
-          onClick={() => {
-            setShowFormModal(true)
-            autoFillForm(user)
-          }}
-          >
-            Edit
-          </button>
-      </div>
-      <img className="image" src={user.image} alt=''/>
-      <div className="text-box">
-          <div className="name">
-              <b> {user.firstName} {user.lastName} </b>
-          </div>
-          <div className="description">
-              <p><b>Age:</b> {user.age}</p> 
-              <p><b>Height:</b> {user.height}</p> 
-              <p><b>University:</b> {user.university}</p> 
-          </div> 
-      </div>
-    </div>
-    );
-  
+    setFirstNameUser(editedUser.firstName);
+    setLastNameUser(editedUser.lastName);
+    setAgeUser(editedUser.age);
+    setHeightUser(editedUser.height);
+    setUniversityUser(editedUser.university);
+    setImageUser(editedUser.image);
   }
+
 
   function addNewUserCard() {
 
-    const newUserData = {
-      id: uuidv4(),
-      image: imageUser,
-      firstName: firstNameUser,
-      lastName: lastNameUser,
-      age: ageUser,
-      height: heightUser,
-      university: universityUser,
-    };
-    
-    // spread operator
-    const updatedCurrentUsers = [
-      newUserData,
-      ...currentUsers
-    ];
+    if (isUserEditing === false) {
+      const newUserData = {
+        id: uuidv4(),
+        image: imageUser,
+        firstName: firstNameUser,
+        lastName: lastNameUser,
+        age: ageUser,
+        height: heightUser,
+        university: universityUser,
+      };
 
+      
+      // spread operator
+      const updatedCurrentUsers = [
+        newUserData,
+        ...currentUsers
+      ];
+
+      setCurrentUsers(updatedCurrentUsers);
+
+      resetInputValues();
+
+      setShowFormModal(false);
+
+    }
+
+    const editedUserIndex = currentUsers.findIndex((user) => user.id === isUserEditing);
+    const editedUser = currentUsers.find((user) => user.id === isUserEditing);
+
+    editedUser.image = imageUser;
+    editedUser.firstName = firstNameUser;
+    editedUser.lastName = lastNameUser;
+    editedUser.age = ageUser;
+    editedUser.height = heightUser;
+    editedUser.university = universityUser;
+
+    const updatedCurrentUsers = [...currentUsers];
+    updatedCurrentUsers.splice(editedUserIndex, 1, editedUser);
     setCurrentUsers(updatedCurrentUsers);
 
     resetInputValues();
 
     setShowFormModal(false);
+
+    setIsUserEditing(false);
 
   }
 
@@ -147,7 +158,10 @@ function App() {
     <header>
       <button 
         className='add-button'
-        onClick={() => setShowFormModal(true)}
+        onClick={() => {
+          setShowFormModal(true)
+          resetInputValues()
+        }}
       >
         Add
       </button>
@@ -237,7 +251,14 @@ function App() {
     </div>}
     <div className='card-box-div'>
 
-      {usersToShow ? usersToShow.map((user) => renderCard(user)) : null}
+      {usersToShow ? usersToShow.map((user) => (
+        <RenderCard
+        key={user.id}
+        userData={user}
+        // onDelete={handleDelete}
+        onEdit={handleEdit}
+        />
+      )) : null}
     
     </div>
   </div>
