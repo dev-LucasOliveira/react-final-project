@@ -112,11 +112,15 @@ function App() {
         ...currentUsers
       ];
 
+      // console.log('estou aqui');
+
       setCurrentUsers(updatedCurrentUsers);
 
       resetInputValues();
 
       setShowFormModal(false);
+
+      return;
 
     }
 
@@ -139,6 +143,16 @@ function App() {
     setShowFormModal(false);
 
     setIsUserEditing(false);
+
+  }
+
+  function deleteUser(id) {
+
+    const editedUserIndex = currentUsers.findIndex((user) => user.id === id);
+
+    const updatedCurrentUsers = [...currentUsers];
+    updatedCurrentUsers.splice(editedUserIndex, 1);
+    setCurrentUsers(updatedCurrentUsers);
 
   }
 
@@ -257,9 +271,13 @@ function App() {
         userData={user}
         // onDelete={handleDelete}
         onEdit={handleEdit}
+        setShowFormModal={setShowFormModal}
+        autoFillForm={autoFillForm}
+        setIsUserEditing={setIsUserEditing}
+        onDelete={deleteUser}
         />
       )) : null}
-    
+
     </div>
   </div>
   );

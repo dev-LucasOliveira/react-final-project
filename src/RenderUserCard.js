@@ -11,7 +11,7 @@ function RenderCard(props) {
                         onEdit(userData.id)
                         setShowFormModal(true)
                         autoFillForm(userData)
-                        setIsUserEditing(true)
+                        setIsUserEditing(userData.id)
                     }}
                 >
                     Edit
