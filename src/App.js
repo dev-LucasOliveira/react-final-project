@@ -16,6 +16,7 @@ function App() {
   const [heightUser, setHeightUser] = useState('');
   const [universityUser, setUniversityUser] = useState('');
   const [showFormModal, setShowFormModal] = useState(false);
+  const [showSortModal, setShowSortModal] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [isUserEditing, setIsUserEditing] = useState(false);
 
@@ -64,13 +65,6 @@ function App() {
       else {setIsButtonDisabled(false)};
   }, [firstNameUser, lastNameUser, ageUser, heightUser, universityUser, imageUser]);
 
-  // useEffect(() => {
-  //   if (isUserEditing === true) {
-  //     setIsButtonDisabled(false);
-  //   }
-  //   else ;
-  // }, [isUserEditing]);
-
   function autoFillForm(user) {
     setFirstNameUser(user.firstName);
     setLastNameUser(user.lastName);
@@ -90,7 +84,6 @@ function App() {
     setUniversityUser(editedUser.university);
     setImageUser(editedUser.image);
   }
-
 
   function addNewUserCard() {
 
@@ -167,26 +160,90 @@ function App() {
 
   }
 
+  function sortUsers(btn) {
+    setShowSortModal(!showSortModal)
+    if (btn === 1) {
+      const sortedUsers = [...currentUsers];
+      sortedUsers.sort((a,b) => a.firstName.localeCompare(b.firstName));
+      setCurrentUsers(sortedUsers);
+      return;
+    }
+
+    if (btn === 2) {
+      const sortedUsers = [...currentUsers];
+      sortedUsers.sort((a,b) => b.firstName.localeCompare(a.firstName));
+      setCurrentUsers(sortedUsers);
+      return;
+    }
+
+    if (btn === 3) {
+      const sortedUsers = [...currentUsers];
+      sortedUsers.sort((a,b) => b.age - a.age);
+      setCurrentUsers(sortedUsers);
+      return;
+    }
+
+    if (btn === 4) {
+      const sortedUsers = [...currentUsers];
+      sortedUsers.sort((a,b) => a.age - b.age);
+      setCurrentUsers(sortedUsers);
+      return;
+    }
+  }
+
   return (
   <div className='page'>
     <header>
       <button 
         className='add-button'
         onClick={() => {
-          setShowFormModal(true)
+          setShowFormModal(!showFormModal)
           resetInputValues()
         }}
       >
         Add
       </button>
-        <input 
-          name='input-box' 
-          value={searchField} 
-          onChange={(event) => setSearchField(event.target.value)} 
-          type="text" 
-          className='input-box' 
-          placeholder='Search here'
-        />
+      <input 
+        name='input-box' 
+        value={searchField} 
+        onChange={(event) => setSearchField(event.target.value)} 
+        type="text" 
+        className='input-box' 
+        placeholder='Search here'
+      />
+      <button 
+        className='add-button'
+        onClick={() => setShowSortModal(!showSortModal)}
+      >
+        Sort by
+      </button>
+      {showSortModal && <div className='sort-modal-div'>
+          <div 
+          className='sort-option' 
+          onClick={() => sortUsers(1)}
+          >
+            Name: A-Z
+          </div>
+          <div 
+          className='sort-option' 
+          onClick={() => sortUsers(2)}
+          >
+            Name: Z-A
+          </div>
+          <div 
+          className='sort-option' 
+          onClick={() => sortUsers(3)}
+          >
+            Age: Higher to Lower
+          </div>
+          <div 
+          className='sort-option' 
+          onClick={() => sortUsers(4)}
+          >
+            Age: Lower to Higher
+          </div>
+        </div>
+      }
     </header>
     {showFormModal && <div className='modal-div'>
       <div className='title-modal-div'>
@@ -248,7 +305,11 @@ function App() {
         <div className='form-button-div'>
           <button
             className='form-button'
-            onClick={() => setShowFormModal(false)}
+            onClick={(user) => {
+              setShowFormModal(false)
+              resetInputValues()
+              setIsUserEditing(false)
+            }}
           >
             Cancelar
           </button>
@@ -261,7 +322,6 @@ function App() {
           </button>
         </div>
       </div>
-      <div className='continent-modal-div'></div>
     </div>}
     <div className='card-box-div'>
 
@@ -269,11 +329,11 @@ function App() {
         <RenderCard
         key={user.id}
         userData={user}
-        // onDelete={handleDelete}
-        onEdit={handleEdit}
         setShowFormModal={setShowFormModal}
+        showFormModal={showFormModal}
         autoFillForm={autoFillForm}
         setIsUserEditing={setIsUserEditing}
+        onEdit={handleEdit}
         onDelete={deleteUser}
         />
       )) : null}
