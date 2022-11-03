@@ -14,14 +14,14 @@ function App() {
   const [lastNameUser, setLastNameUser] = useState('');
   const [ageUser, setAgeUser] = useState('');
   const [heightUser, setHeightUser] = useState('');
-  const [universityUser, setUniversityUser] = useState('');
+  const [genderUser, setGenderUser] = useState('');
   const [showFormModal, setShowFormModal] = useState(false);
   const [showSortModal, setShowSortModal] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [isUserEditing, setIsUserEditing] = useState(false);
 
   useEffect(() => {
-    fetch('https://dummyjson.com/users')
+    fetch('https://dummyjson.com/users?limit=200')
     .then(res => res.json())
     .then(jsonRes => setCurrentUsers(jsonRes.users))
   }, []);     
@@ -42,7 +42,7 @@ function App() {
           user.lastName.toLowerCase().includes(searchString.toLowerCase()) || 
           user.age.toString().includes(searchString.toLowerCase()) || 
           user.height.toString().includes(searchString.toLowerCase()) || 
-          user.university.toLowerCase().includes(searchString.toLowerCase())
+          user.gender.toLowerCase().includes(searchString.toLowerCase())
           ) {return user;} 
           return {};
       });
@@ -59,18 +59,18 @@ function App() {
       lastNameUser === '' && 
       ageUser === '' &&
       heightUser === '' &&      
-      universityUser === '' &&      
+      genderUser === '' &&      
       imageUser === ''
       ) {setIsButtonDisabled(true);}
       else {setIsButtonDisabled(false)};
-  }, [firstNameUser, lastNameUser, ageUser, heightUser, universityUser, imageUser]);
+  }, [firstNameUser, lastNameUser, ageUser, heightUser, genderUser, imageUser]);
 
   function autoFillForm(user) {
     setFirstNameUser(user.firstName);
     setLastNameUser(user.lastName);
     setAgeUser(user.age);
     setHeightUser(user.height);
-    setUniversityUser(user.university);
+    setGenderUser(user.gender);
     setImageUser(user.image);
   }
 
@@ -81,7 +81,7 @@ function App() {
     setLastNameUser(editedUser.lastName);
     setAgeUser(editedUser.age);
     setHeightUser(editedUser.height);
-    setUniversityUser(editedUser.university);
+    setGenderUser(editedUser.gender);
     setImageUser(editedUser.image);
   }
 
@@ -95,7 +95,7 @@ function App() {
         lastName: lastNameUser,
         age: ageUser,
         height: heightUser,
-        university: universityUser,
+        gender: genderUser,
       };
 
       
@@ -125,7 +125,7 @@ function App() {
     editedUser.lastName = lastNameUser;
     editedUser.age = ageUser;
     editedUser.height = heightUser;
-    editedUser.university = universityUser;
+    editedUser.gender = genderUser;
 
     const updatedCurrentUsers = [...currentUsers];
     updatedCurrentUsers.splice(editedUserIndex, 1, editedUser);
@@ -155,7 +155,7 @@ function App() {
     setLastNameUser('');
     setAgeUser('');
     setHeightUser('');
-    setUniversityUser('');
+    setGenderUser('');
     setImageUser('');
 
   }
@@ -248,59 +248,59 @@ function App() {
     {showFormModal && <div className='modal-div'>
       <div className='title-modal-div'>
         <p className='title-modal'>Adicione um novo usuário aqui</p>
-        <label className='input-label'>Primeiro nome:</label>
+        <label className='input-label'>First Name:</label>
         <input 
           name='first-name'
           value={firstNameUser}
           onChange={(event) => setFirstNameUser(event.target.value)}
           type='text'
           className='modal-input'
-          placeholder='Primeiro nome'
+          placeholder='First Name'
         />
-        <label className='input-label'>Último nome:</label>
+        <label className='input-label'>Last Name:</label>
         <input 
           name='last-name'
           value={lastNameUser}
           onChange={(event) => setLastNameUser(event.target.value)}
           type='text'
           className='modal-input'
-          placeholder='Último nome'
+          placeholder='Last Name'
         />
-        <label className='input-label'>Idade:</label>
+        <label className='input-label'>Age:</label>
         <input 
           name='age'
           value={ageUser}
           onChange={(event) => setAgeUser(event.target.value)}
           type='text'
           className='modal-input'
-          placeholder='Idade'
+          placeholder='Age'
         />
-        <label className='input-label'>Altura:</label>
+        <label className='input-label'>Height:</label>
         <input 
           name='height'
           value={heightUser}
           onChange={(event) => setHeightUser(event.target.value)}
           type='text'
           className='modal-input'
-          placeholder='Altura'
+          placeholder='Height'
         />
-        <label className='input-label'>Universidade:</label>
+        <label className='input-label'>Gender:</label>
         <input 
-          name='university'
-          value={universityUser}
-          onChange={(event) => setUniversityUser(event.target.value)}
+          name='gender'
+          value={genderUser}
+          onChange={(event) => setGenderUser(event.target.value)}
           type='text'
           className='modal-input'
-          placeholder='university'
+          placeholder='gender'
         />
-        <label className='input-label'>Imagem (URL):</label>
+        <label className='input-label'>Image (URL):</label>
         <input 
           name='image'
           value={imageUser}
           onChange={(event) => setImageUser(event.target.value)}
           type='text'
           className='modal-input'
-          placeholder='image'
+          placeholder='Image'
         />
         <div className='form-button-div'>
           <button
@@ -330,7 +330,6 @@ function App() {
         key={user.id}
         userData={user}
         setShowFormModal={setShowFormModal}
-        showFormModal={showFormModal}
         autoFillForm={autoFillForm}
         setIsUserEditing={setIsUserEditing}
         onEdit={handleEdit}

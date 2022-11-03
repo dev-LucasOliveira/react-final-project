@@ -31,7 +31,7 @@ function RenderCard(props) {
                 <div className="description">
                     <p><b>Age:</b> {userData.age}</p> 
                     <p><b>Height:</b> {userData.height}</p> 
-                    <p><b>University:</b> {userData.university}</p> 
+                    <p><b>Gender:</b> {userData.gender}</p> 
                 </div> 
             </div>
         </div>

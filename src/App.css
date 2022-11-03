@@ -8,6 +8,7 @@
   position: relative;
   width: 100vw;
   height: 100vh;
+  display: flex;
   background-color: bisque;
   overflow-x: hidden;
 }
@@ -120,9 +121,9 @@ header {
 .modal-div {
   display: flex;
   z-index: 10;
-  position: fixed;
+  position: sticky;
   top: 10vh;
-  width: 30vw;
+  width: 30%;
   height: 90vh;
   background-color: rgb(202, 155, 98);
   box-shadow: 0 0 10px black;
@@ -149,12 +150,12 @@ header {
 .input-label {
   width: 100%;
   font-size: 18px;
-  margin-top: 4vh;
+  margin-top: 2vh;
 }
 
 .modal-input {
-  width: 25vw;
-  height: 5vh;
+  width: 97%;
+  height: 4vh;
   align-self: center;
   border-radius: 5px;
   border: none;
@@ -171,8 +172,10 @@ header {
 }
 
 .card-box-div {
-  width: 100vw;
-  margin: 15vh 0;
+  width: 100%;
+  height: fit-content;
+  margin-top: 10vh;
+  padding: 5vh 0;
   display: flex;
   justify-content: center;
   align-items: center;
