@@ -9,7 +9,7 @@
   width: 100vw;
   height: 100vh;
   display: flex;
-  background-color: bisque;
+  background-color: #e5e5e5;
   overflow-x: hidden;
 }
 
@@ -19,7 +19,7 @@ header {
   box-shadow: 0 0 10px black;
   width: 100vw;
   height: 10vh;
-  background-color: brown;
+  background-color: #2e2e2e;
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -29,10 +29,10 @@ header {
   width: 10vw;
   height: 5vh;
   border-radius: 30px;
-  border: 1px solid bisque;
+  border: 1px solid #e5e5e5;
   font-size: 15px;
   font-weight: 600;
-  color: bisque;
+  color: #e5e5e5;
   background-color: transparent;
   transition-duration: 0.25s;
 }
@@ -55,7 +55,7 @@ header {
 }
 
 .sort-option {
-  color: white;
+  color: #e5e5e5;
   border-top: 0.5px solid transparent;
   border-bottom: 0.5px solid transparent;
   border-radius: 10px;
@@ -68,8 +68,8 @@ header {
 }
 
 .sort-option:hover {
-  border-top: 0.5px solid white;
-  border-bottom: 0.5px solid white;
+  border-top: 0.5px solid #e5e5e5;
+  border-bottom: 0.5px solid #e5e5e5;
   cursor: pointer;
   transition-duration: 0.25s;
 }
@@ -82,7 +82,7 @@ header {
   font-size: 15px;
   font-weight: 600;
   color: rgb(70, 70, 70);
-  background-color: white;
+  background-color: #e5e5e5;
   transition-duration: 0.25s;
 }
 
@@ -191,7 +191,7 @@ header {
   align-items: center;
   width: 20vw;
   height: 40vh;
-  background-color: rgb(99, 25, 25);
+  background-color: #2e2e2e;
   border-radius: 10px;
 }
 
